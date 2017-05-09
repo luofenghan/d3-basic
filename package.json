@@ -1,0 +1,21 @@
+{
+  "name": "d3-basic",
+  "version": "0.0.1",
+  "description": "Ready to go d3 data visualization project template",
+  "keywords": [
+    "data visualization",
+    "d3"
+  ],
+  "homepage": "https://github.com/luofenghan/d3-basic",
+  "author": {
+    "name": "luofenghan",
+    "url": "https://github.com/luofenghan"
+  },
+  "dependencies": {
+    "d3": "4.8.0"
+  },
+  "scripts": {
+    "start": "http-server -o -s -a 127.0.0.1 -p 9001",
+    "doc": "https://www.npmjs.com/package/http-server"
+  }
+}

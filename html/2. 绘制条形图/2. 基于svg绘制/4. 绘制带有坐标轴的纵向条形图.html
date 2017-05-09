@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta about="https://bost.ocks.org/mike/bar/3/#columns">
+    <title>Title</title>
+    <style>
+
+        .bar {
+            fill: steelblue;
+        }
+
+        .axis text {
+            font: 10px sans-serif;
+        }
+
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
+        }
+
+        .x.axis path {
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+
+</body>
+<script src="/node_modules/d3/build/d3.js"></script>
+<script>
+
+    var type = function (d) {
+        d.value = +d.value;
+        return d;
+    };
+
+    var width = 960, height = 500;
+
+    //将x刻度重命名为y刻度
+    var yPixel = d3.scaleLinear()
+        .range([height, 0]);
+
+    var chart = d3.select("body")
+        .append("svg")
+        .attr("class", "chart")
+        .attr("width", width)
+        .attr("height", height);
+
+    d3.csv("../../../assets/score.csv", type, function (error, data) {
+        var xPixel = d3.scaleOrdinal(data.map(function (d) {
+            return d.name;
+        })).range([0, width]);
+
+        yPixel.domain([0, d3.max(data, function (d) {
+            return d.value
+        })]);
+
+        const barWidth = width / data.length;
+
+        var bar = chart.selectAll("g")
+            .data(data)
+            .enter()
+            .append("g")
+            .attr("transform", function (d) {
+                return "translate(" + xPixel(d.name) + ",0)"
+            });
+
+        bar.append("rect")
+            .attr("y", function (d) {
+                return yPixel(d.value)
+            })
+            .attr("height", function (d) {
+                return height - yPixel(d.value)
+            })
+            .attr("width", barWidth - 1);
+
+        bar.append("text")
+            .attr("x", barWidth / 2)
+            .attr("y", function (d) {
+                return yPixel(d.value) + 3
+            })
+            .attr("dy", ".75em")
+            .text(function (d) {
+                return d.value;
+            })
+        ;
+    })
+</script>
+</html>

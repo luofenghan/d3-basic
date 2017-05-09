@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>Hello World 1</p>
+<p>Hello World 2</p>
+</body>
+<script src="/node_modules/d3/build/d3.js"></script>
+<script title="Selections 选择集">
+    d3.select("body")
+        .selectAll("p")
+        .text("这段文本使用d3写的");
+
+    /*设置body背景颜色*/
+    d3.select("body").style("background-color", "orange");
+
+
+</script>
+
+<script title="动态属性">
+    /*设置随机颜色*/
+    d3.selectAll("p").style("color", function () {
+        return "hsl(" + Math.random() * 360 + ",100%,50%)";
+    });
+
+    /*交替改变偶数节点和奇数节点的阴影*/
+    d3.selectAll("p").style("color", function (d, i) {
+        return i % 2 ? "#fff" : "#eee";
+    });
+
+    d3.selectAll("p")
+        .data([4, 42])
+        .style("font-size", function (data) {
+            return data + "px";
+        })
+</script>
+
+<script title="进入和退出">
+    var p = d3.select("body")
+        .selectAll("p")
+        .data([4, 8, 15, 16, 23, 42])
+        .text(function (d) {
+            return d;
+        });
+    // Enter…
+    p.enter().append("p")
+        .text(function (d) {
+            return d;
+        });
+
+    p.exit().remove();
+</script>
+
+<script title="transition">
+    d3.selectAll("p").transition()
+        .duration(750)
+        .delay(function (d, i) {
+            return i * 100;
+        })
+        .attr("r", function (d) {
+            return Math.sqrt(d * scale);
+        });
+
+</script>
+</html>
